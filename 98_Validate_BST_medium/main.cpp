@@ -3,21 +3,16 @@ using namespace std;
 
 class Solution {
 public:
-TreeNode* prev = nullptr;
-    bool inorder(TreeNode* temp){
-        if(temp == nullptr){
+    bool Validate(TreeNode* root, long min, long max){
+        if(root == nullptr){
             return true;
         }
-        if(!inorder(temp->left)){
+        if(root->val <= min || root->val >= max){
             return false;
         }
-        if(prev != nullptr && prev->val >= temp->val){
-            return false;
-        }
-        prev = temp;
-        return inorder(temp->right);
+        return Validate(root->left, min, root->val) && Validate(root->right, root->val, max);
     }
     bool isValidBST(TreeNode* root) {
-        return inorder(root);
+        return Validate(root, LONG_MIN, LONG_MAX);
     }
 };
